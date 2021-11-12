@@ -13,6 +13,11 @@ module.exports = app => {
   config.clientSecret = config.secret;
   config.scope = ['email']
 
+  // 挂载鉴权路由
+  app.passport.mount('github');
+  // 挂载跳转的中间件
+  app.config.coreMiddleware.push('patractlabsAuth');
+
   // must require `req` params
   app.passport.use('github', new Strategy(config, (req, accessToken, refreshToken, params, profile, done) => {
     // format user
